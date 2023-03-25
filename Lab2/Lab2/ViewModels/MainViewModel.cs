@@ -1,4 +1,5 @@
-﻿using Lab2.Managers;
+﻿using Lab2.Exceptions;
+using Lab2.Managers;
 using Lab2.Models;
 using Lab2.Tools;
 using System;
@@ -79,18 +80,27 @@ namespace Lab2.ViewModels
 
         private void CalculateInfo()
         {
-            if (IsCorrect(BirthDate))
+            //Birth date check
+            try
             {
-                CheckAdult();
-                SetSunSign();
-                SetChineseSign();
-                CheckBirthday();
-                //for (int i = 0; i < 1000000000; i++)
-                //{
-
-                //}
-                ChangeProperties();
+                TryCheckIfCorrect(BirthDate);
             }
+            catch (BirthDateException)
+            {
+                throw;
+            }
+            //Email check
+            if (!Regex.IsMatch(Email, "\\S+@\\S+\\.\\S+"))
+            {
+                throw new IncorrectEmailException(Email);
+            }
+
+            CheckAdult();
+            SetSunSign();
+            SetChineseSign();
+            CheckBirthday();
+            //for (int i = 0; i < 1000000000; i++) { }
+            ChangeProperties();
         }
         private void CheckAdult()
         {
@@ -186,26 +196,40 @@ namespace Lab2.ViewModels
             OnPropertyChanged(nameof(IsBirthday));
         }
 
-        private static bool IsCorrect(DateTime date)
+        private static void TryCheckIfCorrect(DateTime date)
         {
             DateTime now = DateTime.Now;
             DateTime tooOld = new(now.Year - 135, now.Month, now.Day);
 
-            if (DateTime.Compare(date, now) > 0
-                || DateTime.Compare(tooOld, date) > 0)
+            //Future date check
+            if (DateTime.Compare(date, now) > 0)
             {
-                MessageBox.Show("You couldn't have born in the future or 135 years ago");
-                return false;
+                throw new FutureBirthDateException();
             }
-
-            return true;
+            //Very old date check
+            if (DateTime.Compare(tooOld, date) > 0)
+            {
+                throw new TooOldBirthDateException();
+            }
         }
 
         private async void Proceed()
         {
-            LoaderManager.Instance.ShowLoader();
-            await Task.Run(() => CalculateInfo());
-            LoaderManager.Instance.HideLoader();
+            try
+            {
+                LoaderManager.Instance.ShowLoader();
+                await Task.Run(() => CalculateInfo());
+            }
+            catch (IncorrectInputException e)
+            {
+                LoaderManager.Instance.HideLoader();
+                MessageBox.Show(e.Message);
+            }
+            finally
+            {
+                LoaderManager.Instance.HideLoader();
+            }
+
             if (DateTime.Now.Month == BirthDate.Month && DateTime.Now.Day == BirthDate.Day)
             {
                 MessageBox.Show("Happy Birthday!");
@@ -216,7 +240,7 @@ namespace Lab2.ViewModels
             DateTime toParse;
             return !String.IsNullOrWhiteSpace(Name)
                 && !String.IsNullOrWhiteSpace(Surname)
-                && Regex.IsMatch(Email, "\\S+@\\S+\\.\\S+")
+                && !String.IsNullOrWhiteSpace(Email)
                 && DateTime.TryParse(BirthDateText, out toParse);
         }
 
