@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="Lab3.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lab3.Views"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1500" IsEnabled="{Binding IsEnabled, Mode=OneWay}">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="60"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Name" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBox Name="TbAddName" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding NameAdd, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Surname" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBox Name="TbAddSurname" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding SurnameAdd, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Email" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBox Name="TbAddEmail" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding EmailAdd, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Birth date" Foreground="Gray" FontSize="14"></TextBlock>
+                    <DatePicker Name="DpAddBirthday" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" SelectedDate="{Binding BirthDateAdd, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Text="{Binding BirthDateAddText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></DatePicker>
+
+                    <Button Name="BAddUser" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Content="Add user" Command ="{Binding AddUserCommand}"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="60"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Email" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBox Name="TbEditEmail" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding EmailEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="New name" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBox Name="TbEditName" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding NameEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="New surname" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBox Name="TbEditSurname" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding SurnameEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="New birth date" Foreground="Gray" FontSize="14"></TextBlock>
+                    <DatePicker Name="DpEditBirthday" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" SelectedDate="{Binding BirthDateEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Text="{Binding BirthDateEditText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></DatePicker>
+
+                    <Button Name="BEditUser" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Content="Edit user" Command ="{Binding EditUserCommand}"/>
+                </Grid>
+
+                <Grid Grid.Row="4" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Email" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBox Name="TbDeleteEmail" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding EmailDelete, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <Button Name="BDeleteUser" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Content="Delete user" Command ="{Binding DeleteUserCommand}"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        
+        <!--<fa:ImageAwesome Icon="Refresh" Spin="True" Height="200" Width="200" Visibility="{Binding LoaderVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></fa:ImageAwesome>-->
+    </Grid>
+</UserControl>
