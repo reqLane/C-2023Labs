@@ -19,17 +19,7 @@ namespace Lab3.Repositories
                 Directory.CreateDirectory(BaseFolder);
         }
 
-        public async Task AddOrUpdateAsync(Person obj)
-        {
-            var stringObj = JsonSerializer.Serialize(obj);
-
-            using (StreamWriter sw = new StreamWriter(Path.Combine(BaseFolder, obj.Email), false))
-            {
-                await sw.WriteAsync(stringObj);
-            }
-        }
-
-        public async Task<List<Person>> GetAllAsync()
+        public List<Person> GetAllPersons()
         {
             var res = new List<Person>();
             foreach (var file in Directory.EnumerateFiles(BaseFolder))
@@ -38,7 +28,7 @@ namespace Lab3.Repositories
 
                 using (StreamReader sw = new StreamReader(file))
                 {
-                    stringObj = await sw.ReadToEndAsync();
+                    stringObj = sw.ReadToEnd();
                 }
 
                 Person? deserialized = JsonSerializer.Deserialize<Person>(stringObj);
@@ -48,6 +38,28 @@ namespace Lab3.Repositories
             }
 
             return res;
+        }
+
+        public async Task RewriteConfig(List<Person> newCollection)
+        {
+            foreach (var file in Directory.EnumerateFiles(BaseFolder))
+            {
+                File.Delete(file);
+            }
+
+            foreach (var person in newCollection)
+            {
+                string filePath = Path.Combine(BaseFolder, person.Email);
+                if (File.Exists(filePath))
+                    throw new Exception("Person already exists");
+
+                var stringObj = JsonSerializer.Serialize(person);
+
+                using (StreamWriter sw = new StreamWriter(filePath, false))
+                {
+                    await sw.WriteAsync(stringObj);
+                }
+            }
         }
     }
 }

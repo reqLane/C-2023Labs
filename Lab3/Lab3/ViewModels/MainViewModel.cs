@@ -1,8 +1,10 @@
 ﻿using Lab3.Exceptions;
 using Lab3.Managers;
 using Lab3.Models;
+using Lab3.Repositories;
 using Lab3.Tools;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,19 +20,58 @@ namespace Lab3.ViewModels
     class MainViewModel : INotifyPropertyChanged, ILoaderOwner
     {
         #region Fields
-        private ObservableCollection<Person> _persons;
+        private List<string> _emails = new List<string>();
+        private List<Person> _persons;
+        private ObservableCollection<Person> _personsDisplayed;
+        private FileRepository _fileRepository = new FileRepository();
         private readonly Person _personToAdd = new("", "", "", DateTime.Now);
-        private readonly Person _personToEdit = new("", "", "", DateTime.Now);
         private string _emailToDelete = "";
         private bool _isEnabled = true;
         private Visibility _loaderVisibility = Visibility.Collapsed;
         private RelayComand<object>? _addUserCommand;
-        private RelayComand<object>? _editUserCommand;
         private RelayComand<object>? _deleteUserCommand;
+        private RelayComand<object>? _filterPersonsCommand;
+        private RelayComand<object>? _sortNameCommand;
+        private RelayComand<object>? _sortSurnameCommand;
+        private RelayComand<object>? _sortEmailCommand;
+        private RelayComand<object>? _sortBirthDateCommand;
+        private RelayComand<object>? _sortIsAdultCommand;
+        private RelayComand<object>? _sortSunSignCommand;
+        private RelayComand<object>? _sortChineseSignCommand;
+        private RelayComand<object>? _sortIsBirthdayCommand;
+        private RelayComand<object>? _saveConfigCommand;
         public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
+        public MainViewModel()
+        {
+            _persons = _fileRepository.GetAllPersons();
+            foreach (var person in _persons)
+            {
+                _emails.Add(person.Email);
+            }
+            _personsDisplayed = new ObservableCollection<Person>(_persons);
+            NameFilter = "";
+            SurnameFilter = "";
+            EmailFilter = "";
+            BirthDateFilter = DateTime.MinValue;
+            IsAdultFilter = "";
+            SunSignFilter = "";
+            ChineseSignFilter = "";
+            IsBirthdayFilter = "";
+        }
+
         #region Properties
+        public ObservableCollection<Person> PersonsDisplayed
+        {
+            get { return _personsDisplayed; }
+            set
+            {
+                _personsDisplayed = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string NameAdd { 
             get { return _personToAdd.Name; }
             set { _personToAdd.Name = value; } 
@@ -52,33 +93,20 @@ namespace Lab3.ViewModels
         }
         public string? BirthDateAddText { get; set; }
 
-        public string NameEdit
-        {
-            get { return _personToEdit.Name; }
-            set { _personToEdit.Name = value; }
-        }
-        public string SurnameEdit
-        {
-            get { return _personToEdit.Surname; }
-            set { _personToEdit.Surname = value; }
-        }
-        public string EmailEdit
-        {
-            get { return _personToEdit.Email; }
-            set { _personToEdit.Email = value; }
-        }
-        public DateTime BirthDateEdit
-        {
-            get { return _personToEdit.BirthDate; }
-            set { _personToEdit.BirthDate = value; }
-        }
-        public string? BirthDateEditText { get; set; }
-
         public string EmailDelete
         {
             get { return _emailToDelete; }
             set { _emailToDelete = value; }
         }
+
+        public string NameFilter { get; set; }
+        public string SurnameFilter { get; set; }
+        public string EmailFilter { get; set; }
+        public DateTime BirthDateFilter { get; set; }
+        public string IsAdultFilter { get; set; }
+        public string SunSignFilter { get; set; }
+        public string ChineseSignFilter { get; set; }
+        public string IsBirthdayFilter { get; set; }
 
         public bool IsEnabled
         {
@@ -105,18 +133,81 @@ namespace Lab3.ViewModels
                 return _addUserCommand ??= new RelayComand<object>(_ => AddUser(), CanAddUser);
             }
         }
-        public RelayComand<object> EditUserCommand
-        {
-            get
-            {
-                return _editUserCommand ??= new RelayComand<object>(_ => EditUser(), CanEditUser);
-            }
-        }
         public RelayComand<object> DeleteUserCommand
         {
             get
             {
                 return _deleteUserCommand ??= new RelayComand<object>(_ => DeleteUser(), CanDeleteUser);
+            }
+        }
+        public RelayComand<object> FilterPersonsCommand
+        {
+            get
+            {
+                return _filterPersonsCommand ??= new RelayComand<object>(_ => FilterPersons(), CanFilterPersons);
+            }
+        }
+        public RelayComand<object> SortNameCommand
+        {
+            get
+            {
+                return _sortNameCommand ??= new RelayComand<object>(_ => SortPersons("Name"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SortSurnameCommand
+        {
+            get
+            {
+                return _sortSurnameCommand ??= new RelayComand<object>(_ => SortPersons("Surname"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SortEmailCommand
+        {
+            get
+            {
+                return _sortEmailCommand ??= new RelayComand<object>(_ => SortPersons("Email"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SortBirthDateCommand
+        {
+            get
+            {
+                return _sortBirthDateCommand ??= new RelayComand<object>(_ => SortPersons("BirthDate"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SortIsAdultCommand
+        {
+            get
+            {
+                return _sortIsAdultCommand ??= new RelayComand<object>(_ => SortPersons("IsAdult"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SortSunSignCommand
+        {
+            get
+            {
+                return _sortSunSignCommand ??= new RelayComand<object>(_ => SortPersons("SunSign"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SortChineseSignCommand
+        {
+            get
+            {
+                return _sortChineseSignCommand ??= new RelayComand<object>(_ => SortPersons("ChineseSign"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SortIsBirthdayCommand
+        {
+            get
+            {
+                return _sortIsBirthdayCommand ??= new RelayComand<object>(_ => SortPersons("IsBirthday"), CanSortPersons);
+            }
+        }
+        public RelayComand<object> SaveConfigCommand
+        {
+            get
+            {
+                return _saveConfigCommand ??= new RelayComand<object>(_ => SaveConfig());
             }
         }
         #endregion
@@ -142,7 +233,6 @@ namespace Lab3.ViewModels
             SetSunSign(person);
             SetChineseSign(person);
             CheckBirthday(person);
-            ChangeProperties();
         }
         private void CheckAdult(Person person)
         {
@@ -226,14 +316,6 @@ namespace Lab3.ViewModels
         {
             person.IsBirthday = (DateTime.Now.Month == person.BirthDate.Month && DateTime.Now.Day == person.BirthDate.Day);
         }
-        private void ChangeProperties()
-        {
-            //OnPropertyChanged(nameof(Name));
-            //OnPropertyChanged(nameof(Surname));
-            //OnPropertyChanged(nameof(Email));
-            //OnPropertyChanged(nameof(BirthDateText));
-        }
-
         private static void TryCheckIfCorrect(DateTime date)
         {
             DateTime now = DateTime.Now;
@@ -256,9 +338,14 @@ namespace Lab3.ViewModels
             try
             {
                 LoaderManager.Instance.ShowLoader();
+                if (_emails.Contains(EmailAdd))
+                    throw new Exception("Person already exists");
                 await Task.Run(() => CalculateInfo(_personToAdd));
+                _persons.Add(new Person(_personToAdd));
+                _emails.Add(EmailAdd);
+                PersonsDisplayed = new ObservableCollection<Person>(_persons);
             }
-            catch (IncorrectInputException e)
+            catch (Exception e)
             {
                 LoaderManager.Instance.HideLoader();
                 MessageBox.Show(e.Message);
@@ -283,14 +370,29 @@ namespace Lab3.ViewModels
                 && DateTime.TryParse(BirthDateAddText, out toParse);
         }
 
-        private async void EditUser()
+        private async void DeleteUser()
         {
             try
             {
                 LoaderManager.Instance.ShowLoader();
-                await Task.Run(() => CalculateInfo(_personToEdit));
+                if (!_emails.Contains(EmailDelete))
+                    throw new Exception("Person not found");
+                await Task.Run(() =>
+                {
+                    for (int i = 0; i < _persons.Count; i++)
+                    {
+                        Person person = _persons[i];
+                        if (person.Email == _emailToDelete)
+                        {
+                            _persons.RemoveAt(i);
+                            _emails.Remove(EmailDelete);
+                            break;
+                        }
+                    }
+                });
+                PersonsDisplayed = new ObservableCollection<Person>(_persons);
             }
-            catch (IncorrectInputException e)
+            catch (Exception e)
             {
                 LoaderManager.Instance.HideLoader();
                 MessageBox.Show(e.Message);
@@ -300,28 +402,124 @@ namespace Lab3.ViewModels
             {
                 LoaderManager.Instance.HideLoader();
             }
-
-            if (DateTime.Now.Month == BirthDateAdd.Month && DateTime.Now.Day == BirthDateAdd.Day)
-            {
-                MessageBox.Show("Happy Birthday!");
-            }
-        }
-        private bool CanEditUser(object obj)
-        {
-            DateTime toParse;
-            return !String.IsNullOrWhiteSpace(NameEdit)
-                && !String.IsNullOrWhiteSpace(SurnameEdit)
-                && !String.IsNullOrWhiteSpace(EmailEdit)
-                && DateTime.TryParse(BirthDateEditText, out toParse);
-        }
-
-        private async void DeleteUser()
-        {
-
         }
         private bool CanDeleteUser(object obj)
         {
             return !String.IsNullOrWhiteSpace(EmailDelete);
+        }
+
+        private async void FilterPersons()
+        {
+            try
+            {
+                LoaderManager.Instance.ShowLoader();
+                await Task.Run(() =>
+                {
+                    var filteredPersons = from p in _persons
+                                          where p.Name.Contains(NameFilter)
+                                          && p.Surname.Contains(SurnameFilter)
+                                          && p.Email.Contains(EmailFilter)
+                                          && (BirthDateFilter == DateTime.MinValue || p.BirthDate.Equals(BirthDateFilter))
+                                          && (String.IsNullOrWhiteSpace(IsAdultFilter) || p.IsAdult.Equals(IsAdultFilter == "true" ? true : false))
+                                          && p.SunSign != null && p.ChineseSign != null
+                                          && p.SunSign.Contains(SunSignFilter)
+                                          && p.ChineseSign.Contains(ChineseSignFilter)
+                                          && (String.IsNullOrWhiteSpace(IsBirthdayFilter) || p.IsBirthday.Equals(IsBirthdayFilter == "true" ? true : false))
+                                          select p;
+
+                    PersonsDisplayed = new ObservableCollection<Person>(filteredPersons.ToList());
+                });
+            }
+            catch (Exception e)
+            {
+                LoaderManager.Instance.HideLoader();
+                MessageBox.Show(e.Message);
+                return;
+            }
+            finally
+            {
+                LoaderManager.Instance.HideLoader();
+            }
+        }
+        private bool CanFilterPersons(object obj)
+        {
+            return (String.IsNullOrWhiteSpace(IsAdultFilter) || IsAdultFilter == "true" || IsAdultFilter == "false")
+                && (String.IsNullOrWhiteSpace(IsBirthdayFilter) || IsBirthdayFilter == "true" || IsBirthdayFilter == "false");
+        }
+
+        private async void SortPersons(string field)
+        {
+            try
+            {
+                LoaderManager.Instance.ShowLoader();
+                await Task.Run(() =>
+                {
+                    IEnumerable<Person>? sortedPersons = null;
+                    switch (field)
+                    {
+                        case "Name":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.Name);
+                            break;
+                        case "Surname":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.Surname);
+                            break;
+                        case "Email":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.Email);
+                            break;
+                        case "BirthDate":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.BirthDate);
+                            break;
+                        case "IsAdult":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.IsAdult);
+                            break;
+                        case "SunSign":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.SunSign);
+                            break;
+                        case "ChineseSign":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.ChineseSign);
+                            break;
+                        case "IsBirthday":
+                            sortedPersons = _personsDisplayed.OrderBy(p => p.IsBirthday);
+                            break;
+                    }
+
+                    if(sortedPersons != null)
+                        PersonsDisplayed = new ObservableCollection<Person>(sortedPersons.ToList());
+                });
+            }
+            catch (Exception e)
+            {
+                LoaderManager.Instance.HideLoader();
+                MessageBox.Show(e.Message);
+                return;
+            }
+            finally
+            {
+                LoaderManager.Instance.HideLoader();
+            }
+        }
+        private bool CanSortPersons(object obj)
+        {
+            return PersonsDisplayed.Count > 1;
+        }
+
+        private async void SaveConfig()
+        {
+            try
+            {
+                LoaderManager.Instance.ShowLoader();
+                await _fileRepository.RewriteConfig(_persons);
+            }
+            catch (Exception e)
+            {
+                LoaderManager.Instance.HideLoader();
+                MessageBox.Show(e.Message);
+                return;
+            }
+            finally
+            {
+                LoaderManager.Instance.HideLoader();
+            }
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? name = null)

@@ -27,11 +27,24 @@ namespace Lab3.Models
             Email = email;
             BirthDate = birthDate;
         }
+        public Person(Person person)
+        {
+            Name = person.Name;
+            Surname = person.Surname;
+            Email = person.Email;
+            BirthDate = person.BirthDate;
+            IsAdult = person.IsAdult;
+            SunSign = person.SunSign;
+            ChineseSign = person.ChineseSign;
+            IsBirthday = person.IsBirthday;
+        }
         public Person(string name, string surname, string email) :
             this(name, surname, email, new DateTime(2003, 11, 25)) 
         { }
         public Person(string name, string surname, DateTime birthDate) :
             this(name, surname, "vlad5000191@gmail.com", birthDate)
+        { }
+        public Person()
         { }
         #endregion
 
@@ -78,5 +91,17 @@ namespace Lab3.Models
             set { _isBirthday = value; }
         }
         #endregion
+
+        public void copyOther(Person other)
+        {
+            Name = other.Name;
+            Surname = other.Surname;
+            Email = other.Email;
+            BirthDate = other.BirthDate;
+            IsAdult = other.IsAdult;
+            SunSign = other.SunSign;
+            ChineseSign = other.ChineseSign;
+            IsBirthday = other.IsBirthday;
+        }
     }
 }

@@ -13,14 +13,14 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="60"></ColumnDefinition>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Row="0" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -59,35 +59,6 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="40"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="60"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Email" Foreground="Gray" FontSize="14"></TextBlock>
-                    <TextBox Name="TbEditEmail" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding EmailEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
-
-                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="New name" Foreground="Gray" FontSize="14"></TextBlock>
-                    <TextBox Name="TbEditName" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding NameEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
-
-                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="New surname" Foreground="Gray" FontSize="14"></TextBlock>
-                    <TextBox Name="TbEditSurname" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" Text="{Binding SurnameEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
-
-                    <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="New birth date" Foreground="Gray" FontSize="14"></TextBlock>
-                    <DatePicker Name="DpEditBirthday" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Margin="10" SelectedDate="{Binding BirthDateEdit, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Text="{Binding BirthDateEditText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></DatePicker>
-
-                    <Button Name="BEditUser" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Content="Edit user" Command ="{Binding EditUserCommand}"/>
-                </Grid>
-
-                <Grid Grid.Row="4" Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Email" Foreground="Gray" FontSize="14"></TextBlock>
@@ -96,8 +67,96 @@
                     <Button Name="BDeleteUser" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Content="Delete user" Command ="{Binding DeleteUserCommand}"/>
                 </Grid>
             </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Name" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Surname" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Email" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="Birth date" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="IsAdult" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="SunSign" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="6" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="ChineseSign" Foreground="Gray" FontSize="14"></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 5 5 2" Text="IsBirthday" Foreground="Gray" FontSize="14"></TextBlock>
+
+                    <TextBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding NameFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding SurnameFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding EmailFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <DatePicker Grid.Row="1" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding BirthDateFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></DatePicker>
+                    <TextBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding IsAdultFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding SunSignFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding ChineseSignFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="7" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="35" Margin="10" Text="{Binding IsBirthdayFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+
+                    <Button Grid.Row="1" Grid.Column="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Filter" Command ="{Binding FilterPersonsCommand}"/>
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortNameCommand}"/>
+                    <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortSurnameCommand}"/>
+                    <Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortEmailCommand}"/>
+                    <Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortBirthDateCommand}"/>
+                    <Button Grid.Row="0" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortIsAdultCommand}"/>
+                    <Button Grid.Row="0" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortSunSignCommand}"/>
+                    <Button Grid.Row="0" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortChineseSignCommand}"/>
+                    <Button Grid.Row="0" Grid.Column="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Sort" Command ="{Binding SortIsBirthdayCommand}"/>
+                </Grid>
+
+                <DataGrid Grid.Row="3" Grid.Column="0" ItemsSource="{Binding PersonsDisplayed, Mode=TwoWay}" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Surname" Binding="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="BirthDate" Binding="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="IsAdult" Binding="{Binding IsAdult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="SunSign" Binding="{Binding SunSign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ChineseSign" Binding="{Binding ChineseSign, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="IsBirthday" Binding="{Binding IsBirthday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Content="Save config" Command ="{Binding SaveConfigCommand}"/>
+            </Grid>
         </Grid>
         
-        <!--<fa:ImageAwesome Icon="Refresh" Spin="True" Height="200" Width="200" Visibility="{Binding LoaderVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></fa:ImageAwesome>-->
+        <fa:ImageAwesome Icon="Refresh" Spin="True" Height="200" Width="200" Visibility="{Binding LoaderVisibility, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></fa:ImageAwesome>
     </Grid>
 </UserControl>
